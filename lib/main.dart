@@ -16,7 +16,6 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final appThemeState = ref.watch(appThemeChangeNotifierProvider);
     final appThemeMode = ref.watch(appThemeChangeNotifierProvider);
     return MaterialApp(
       title: 'Riverpod theme Demo',
@@ -25,7 +24,6 @@ class MyApp extends ConsumerWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode:
           appThemeMode.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
-      // themeMode:appThemeState.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
       home: const MyHomePage(title: 'Riverpod theme Demo'),
     );
   }
@@ -45,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         centerTitle: true,
       ),
@@ -58,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text('Light Mode'),
                 DarkModeSwitch(),
-                Text('Dark Mode')
+                Text('Dark Mode'),
               ],
             ),
           ),
@@ -74,14 +71,11 @@ class DarkModeSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final switchThemeMode = ref.watch(appThemeChangeNotifierProvider.notifier);
+    final switchThemeMode = ref.watch(appThemeChangeNotifierProvider);
     return Switch(
-      // value: appThemeMode.isDarkModeEnabled,
-      //value:          ref.watch(appThemeChangeNotifierProvider.notifier).isDarkModeEnabled,
+      //value:ref.watch(appThemeChangeNotifierProvider.notifier).isDarkModeEnabled,
       value: switchThemeMode.isDarkModeEnabled,
       onChanged: (bool enabled) {
-        //setState()
-        //appThemeMode = enabled as AppThemeState;
         if (enabled) {
           switchThemeMode.setDarkTheme();
         } else {
