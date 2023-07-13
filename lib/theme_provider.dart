@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-///Declare provider for AppThemeState
+///Declare ChangeNotifierProvider for AppThemeNotifier
 final appThemeChangeNotifierProvider =
-    ChangeNotifierProvider<AppThemeNotifier>((ref) {
-  return AppThemeNotifier();
+    ChangeNotifierProvider<AppThemeChangeNotifier>((ref) {
+  return AppThemeChangeNotifier();
 });
 
 //provider class  to toggle App theme
-class AppThemeNotifier extends ChangeNotifier {
+class AppThemeChangeNotifier extends ChangeNotifier {
   //toggle theme modes
   bool isDarkModeEnabled = false;
 
@@ -22,5 +22,30 @@ class AppThemeNotifier extends ChangeNotifier {
   void setDarkTheme() {
     isDarkModeEnabled = true;
     notifyListeners();
+  }
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+///Re-writing using STATE NOTIFIER PROVIDER
+///
+final appThemeStateNotifierProvider = StateNotifierProvider((ref) {
+  return AppThemeStateNotifier();
+});
+
+class AppThemeStateNotifier extends StateNotifier<bool> {
+  AppThemeStateNotifier() : super(false);
+
+  //toggle themeMode
+  void toggleTheme() {
+    state = !state;
   }
 }
