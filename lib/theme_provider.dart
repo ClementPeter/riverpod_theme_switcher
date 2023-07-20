@@ -11,7 +11,7 @@ final appThemeChangeNotifierProvider =
 //provider class  to toggle App theme
 class AppThemeChangeNotifier extends ChangeNotifier {
   //toggle theme modes
-  bool isDarkModeEnabled = true;
+  bool isDarkModeEnabled = false;
   //SharedPreferences _prefs;
 
 //constructor - called first when class is build
