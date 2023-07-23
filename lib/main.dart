@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:theme_switcher_riverpod/app_theme.dart';
-import 'package:theme_switcher_riverpod/theme_provider.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:theme_switcher_riverpod/app_theme.dart';
+// import 'package:theme_switcher_riverpod/theme_provider.dart';
 
 // void main() {
 //   runApp(
@@ -107,18 +107,37 @@ import 'package:theme_switcher_riverpod/theme_provider.dart';
 //
 
 //App Theming with State Notifier Provider
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:theme_switcher_riverpod/app_theme.dart';
+//import 'package:theme_switcher_riverpod/app_theme.dart';
+import 'package:theme_switcher_riverpod/theme_provider.dart';
+
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appThemeMode = ref.watch(appThemeStateNotifierProvider.notifier);
+    //
+    //final appThemeMode = ref.watch(appThemeStateNotifierProvider.notifier);
+
     return MaterialApp(
       title: 'Riverpod theme Demo',
+      //theme: appThemeMode,
       theme: ref.watch(appThemeStateNotifierProvider),
       //setting 'darkTheme' helps enable system dark mode
       //darkTheme: AppTheme.darkTheme,
-      //themeMode: appThemeMode!.state ? ThemeMode.dark : ThemeMode.light,
+      // themeMode: appThemeMode.mode == ThemeMode.dark
+      //     ? ThemeMode.dark
+      //     : ThemeMode.light,
       home: const MyHomePage(title: 'Riverpod theme Demo'),
     );
   }
@@ -144,28 +163,31 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Consumer(builder: (context, ref, child) {
-            return ElevatedButton(
-              onPressed: () {
-                final themeMode =ref.watch(appThemeStateNotifierProvider);
-                themeMode.toggleTheme();
-              },
-              child: Text('Toggle Team'),
-            );
-          }
-              //child:
-              ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Light Mode'),
-                DarkModeSwitch(),
-                Text('Dark Mode'),
-              ],
-            ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Light Mode'),
+              // Consumer(builder: (context, ref, child) {
+              //   return DarkModeSwitch();
+              // }),
+              DarkModeSwitch(),
+              Text('Dark Mode'),
+            ],
           ),
-          //
+          Center(
+            child: Consumer(builder: (context, ref, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  final themeMode =
+                      ref.watch(appThemeStateNotifierProvider.notifier);
+                  themeMode.toggleTheme();
+                },
+                child: const Text('Toggle Team'),
+              );
+            }
+                //child:
+                ),
+          ),
         ],
       ),
     );
@@ -175,19 +197,22 @@ class _MyHomePageState extends State<MyHomePage> {
 class DarkModeSwitch extends ConsumerWidget {
   const DarkModeSwitch({super.key});
 
+  void toggleTheme(WidgetRef ref) {
+    ref.read(appThemeStateNotifierProvider.notifier).toggleTheme();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final switchThemeMode = ref.watch(appThemeStateNotifierProvider);
-    return Switch(
-      //value:ref.watch(appThemeChangeNotifierProvider.notifier).isDarkModeEnabled,
-      value: switchThemeMode.,
-      onChanged: (bool enabled) {
-        if (enabled) {
-          switchThemeMode.setDarkTheme();
-        } else {
-          switchThemeMode.setLightTheme();
-        }
-      },
-    );
+    return Switch.adaptive(
+        //value: ref.watch(appThemeStateNotifierProvider.notifier)._mode == ThemeMode.dark,
+
+        // value: ref.watch(appThemeStateNotifierProvider.notifier).mode ==
+        //     ThemeMode.dark ? ,
+        value: ref.watch(appThemeStateNotifierProvider.notifier).mode ==
+            ThemeMode.light,
+        onChanged: (value) => toggleTheme(ref)
+        // ref.read(appThemeStateNotifierProvider.notifier).toggleTheme(),
+
+        );
   }
 }

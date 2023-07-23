@@ -94,22 +94,26 @@ import 'package:theme_switcher_riverpod/app_theme.dart';
 //
 //
 //
-///Re-writing using STATE NOTIFIER PROVIDER
-///
+///Re-writing Theming using STATE NOTIFIER PROVIDER
 final appThemeStateNotifierProvider =
     StateNotifierProvider<AppThemeStateNotifier, ThemeData>((ref) {
   return AppThemeStateNotifier();
 });
 
 class AppThemeStateNotifier extends StateNotifier<ThemeData> {
+  //
   ThemeMode _mode;
 
   AppThemeStateNotifier({ThemeMode mode = ThemeMode.dark})
       : _mode = mode,
         super(AppTheme.darkTheme) {
+    print('::app theme default constructor -> DARK::');
     getTheme();
   }
 
+  ThemeMode get mode => _mode;
+
+  //Get the Starting App THEME
   void getTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final theme = prefs.getString('theme');
@@ -117,18 +121,13 @@ class AppThemeStateNotifier extends StateNotifier<ThemeData> {
     if (theme == 'light') {
       _mode = ThemeMode.light;
       state = AppTheme.lightTheme;
-      prefs.setString('theme', 'light');
+      //prefs.setString('theme', 'light');
     } else {
       _mode = ThemeMode.dark;
       state = AppTheme.darkTheme;
-      prefs.setString('key', 'dark');
+      //prefs.setString('key', 'dark');
     }
   }
-
-  // //toggle themeMode
-  // void toggleTheme() {
-  //   state = !state;
-  // }
 
   void toggleTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -140,7 +139,7 @@ class AppThemeStateNotifier extends StateNotifier<ThemeData> {
     } else {
       _mode = ThemeMode.dark;
       state = AppTheme.darkTheme;
-      prefs.setString('key', 'dark');
+      prefs.setString('theme', 'dark');
     }
   }
 }
