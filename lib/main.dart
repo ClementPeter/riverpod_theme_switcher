@@ -26,6 +26,7 @@ class MyApp extends ConsumerWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode:
           appThemeMode.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+
       home: const MyHomePage(title: 'Riverpod theme Demo'),
     );
   }
