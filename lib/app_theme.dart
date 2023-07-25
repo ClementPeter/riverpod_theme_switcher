@@ -17,7 +17,7 @@ class AppTheme {
     ),
   );
 
-  //specfify dark theme properties
+  //specify dark theme properties
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: blackColor,
     appBarTheme: const AppBarTheme(

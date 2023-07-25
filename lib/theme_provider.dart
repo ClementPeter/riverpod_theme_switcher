@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:theme_switcher_riverpod/app_theme.dart';
 
 ///Declare ChangeNotifierProvider for AppThemeNotifier
 final appThemeChangeNotifierProvider =
@@ -13,7 +12,6 @@ final appThemeChangeNotifierProvider =
 class AppThemeChangeNotifier extends ChangeNotifier {
   //toggle theme modes
   bool isDarkModeEnabled = false;
-  //SharedPreferences _prefs;
 
 //constructor - called first when class is build
   AppThemeChangeNotifier() {
